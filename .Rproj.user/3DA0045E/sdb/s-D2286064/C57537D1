@@ -1,0 +1,17 @@
+{
+    "contents" : "library(stringr)\r#Readfile\rtrain <- read.delim(file='train.tsv', header=TRUE, stringsAsFactors=FALSE)\rword.list = str_split(train$Phrase, '\\\\s+')\rwords = unlist(word.list)\rm = match(words, c('A'))\r\r",
+    "created" : 1401843462079.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1645596759",
+    "id" : "C57537D1",
+    "lastKnownWriteTime" : 77766912,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
