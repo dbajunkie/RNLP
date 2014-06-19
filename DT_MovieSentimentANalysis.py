@@ -34,9 +34,9 @@ with open("train.tsv") as csvfile:
     next(records)
     t = [({word: True for word in nltk.word_tokenize(row[2]) if word not in stop}, (row[3]))for row in records]
 print('Train record count: ' + str(len(t)))    
-trainlen = int((len(t) * 3 / 4))
-train = t[:trainlen]
-test = t[trainlen:]
+##trainlen = int((len(t) * 3 / 4))
+##train = t[:trainlen]
+##test = t[trainlen:]
 
 ##test file data for later.  Might want to incorporate a database read
 with open("test.tsv") as csvfile:
@@ -46,15 +46,29 @@ with open("test.tsv") as csvfile:
 print('Test record count: ' + str(len(test2)))
 
 #classifier NaiveBayes
-timer = time.clock()
-print('NaiveBayes Model')
-classifier = NaiveBayesClassifier.train(train)
-print ('accuracy NaiveBayes:', nltk.classify.util.accuracy(classifier, test))
-classifier.show_most_informative_features(20)
-print('NaiveBayes Time: ' + str(time.clock() - timer))
-print('/n')
+##timer = time.clock()
+##print('NaiveBayes Model')
+##classifier = NaiveBayesClassifier.train(train)
+##print ('accuracy NaiveBayes:', nltk.classify.util.accuracy(classifier, test))
+##classifier.show_most_informative_features(20)
+##print('NaiveBayes Time: ' + str(time.clock() - timer))
+##print('/n')
 
-outfile = open('out.txt','w')
+###classifier DecisionTree
+##timer = time.clock()
+##print('Decision Tree Model')
+##classifier = nltk.DecisionTreeClassifier.train(t)
+###print ('accuracy DecisionTree:', nltk.classify.util.accuracy(classifier, test))
+##print('DecisionTree Time: ' + str(time.clock() - timer))
+
+#classifier SVM
+timer = time.clock()
+print('SVM Model')
+classifier = nltk.classify.scikitlearn.SklearnClassifier.train(t)
+#print ('accuracy DecisionTree:', nltk.classify.util.accuracy(classifier, test))
+print('SVM Time: ' + str(time.clock() - timer))
+
+outfile = open('out_DecisionTree.txt','w')
 outfile.write('PhraseId,Sentiment' + '\n')
 for i in test2:
     a, b = i
@@ -66,15 +80,6 @@ for i in test2:
     outfile.write(str(b) +','+ str(c)+'\n')
     
 outfile.close()
-
-#classifier DecisionTree
-##timer = time.clock()
-##print('Decision Tree Model')
-##classifier2 = nltk.DecisionTreeClassifier.train(train)
-##print ('accuracy DecisionTree:', nltk.classify.util.accuracy(classifier2, test))
-##print('DecisionTree Time: ' + str(time.clock() - timer))
-
-
 
 
 

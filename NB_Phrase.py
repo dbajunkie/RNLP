@@ -32,7 +32,7 @@ stop = stopwords.words('english')
 with open("train.tsv") as csvfile:
     records = csv.reader(csvfile, delimiter='\t')
     next(records)
-    t = [({word: True for word in nltk.word_tokenize(row[2]) if word not in stop}, (row[3]))for row in records]
+    t = [({row[2] : True}, (row[3]))for row in records]
 print('Train record count: ' + str(len(t)))    
 trainlen = int((len(t) * 3 / 4))
 train = t[:trainlen]
@@ -42,19 +42,19 @@ test = t[trainlen:]
 with open("test.tsv") as csvfile:
     records2 = csv.reader(csvfile, delimiter='\t')
     next(records2)
-    test2 = [({word: True for word in nltk.word_tokenize(row[2]) if word not in stop}, row[0])for row in records2]
+    test2 = [({row[2]: True}, row[0])for row in records2]
 print('Test record count: ' + str(len(test2)))
 
 #classifier NaiveBayes
 timer = time.clock()
 print('NaiveBayes Model')
-classifier = NaiveBayesClassifier.train(train)
-print ('accuracy NaiveBayes:', nltk.classify.util.accuracy(classifier, test))
-classifier.show_most_informative_features(20)
+classifier = NaiveBayesClassifier.train(t)
+#print ('accuracy NaiveBayes:', nltk.classify.util.accuracy(classifier, test))
+#classifier.show_most_informative_features(20)
 print('NaiveBayes Time: ' + str(time.clock() - timer))
 print('/n')
 
-outfile = open('out.txt','w')
+outfile = open('out_NB_Phrase.txt','w')
 outfile.write('PhraseId,Sentiment' + '\n')
 for i in test2:
     a, b = i
